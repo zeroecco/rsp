@@ -108,7 +108,7 @@ pub trait BlockExecutor<C: ExecutorComponents> {
             .map_err(|err| eyre::eyre!("{err}"))??;
 
             let proving_duration = proving_start.elapsed();
-            info!("EXTRACTOR: {:?}", proving_duration);
+            info!("::set-output name=proving_duration::{:?}", proving_duration);
             let proof_bytes = bincode::serialize(&proof.proof).unwrap();
 
             hooks
