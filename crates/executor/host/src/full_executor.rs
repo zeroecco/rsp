@@ -111,10 +111,11 @@ pub trait BlockExecutor<C: ExecutorComponents> {
 
             let proving_duration = proving_start.elapsed();
             println!("DURATION_SECONDS: {}", proving_duration.as_secs_f64());
+
             let proof_bytes = bincode::serialize(&proof.proof).unwrap();
             let mut file = File::create("proof.bin").unwrap();
-
-            file.write_all(&proof_bytes).unwrap();
+            let full_proof = bincode::serialize(&proof).unwrap();
+            file.write_all(&full_proof).unwrap();
 
             hooks
                 .on_proving_end(
