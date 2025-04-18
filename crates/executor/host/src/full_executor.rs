@@ -1,5 +1,7 @@
 use std::{
     fmt::{Debug, Formatter},
+    fs::File,
+    io::Write,
     path::{Path, PathBuf},
     sync::Arc,
     time::{Duration, Instant},
@@ -110,6 +112,9 @@ pub trait BlockExecutor<C: ExecutorComponents> {
             let proving_duration = proving_start.elapsed();
             println!("DURATION_SECONDS: {}", proving_duration.as_secs_f64());
             let proof_bytes = bincode::serialize(&proof.proof).unwrap();
+            let mut file = File::create("proof.bin").unwrap();
+
+            file.write_all(&proof_bytes).unwrap();
 
             hooks
                 .on_proving_end(
